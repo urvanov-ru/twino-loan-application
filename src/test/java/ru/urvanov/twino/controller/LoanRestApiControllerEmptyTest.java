@@ -5,17 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
 
-import javax.sql.DataSource;
-
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
 import org.h2.util.IOUtils;
 import org.hamcrest.CustomMatcher;
 import org.json.JSONException;
@@ -25,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONCompare;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -47,8 +39,6 @@ public class LoanRestApiControllerEmptyTest {
 
     private MockMvc mockMvc;
 
-
-
     @Before
     public void before() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
@@ -69,16 +59,17 @@ public class LoanRestApiControllerEmptyTest {
 
     @Test
     public void testApplyLoan() throws Exception {
+        ;
         String requestJson = IOUtils
-                .readStringAndClose(
-                        new InputStreamReader(
-                                LoanRestApiControllerEmptyTest.class
-                                        .getResourceAsStream("LoanDto.json")),
+                .readStringAndClose(new InputStreamReader(new ClassPathResource(
+                        "ru/urvanov/twino/controller/LoanDto.json")
+                                .getInputStream()),
                         -1);
-        final String responseJson = IOUtils.readStringAndClose(
-                new InputStreamReader(LoanRestApiControllerEmptyTest.class
-                        .getResourceAsStream("ApplyLoanResponse.json")),
-                -1);
+        final String responseJson = IOUtils
+                .readStringAndClose(new InputStreamReader(new ClassPathResource(
+                        "ru/urvanov/twino/controller/ApplyLoanResponse.json")
+                                .getInputStream()),
+                        -1);
         this.mockMvc
                 .perform(post("/loanrestapi/applyLoan").content(requestJson)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -110,10 +101,11 @@ public class LoanRestApiControllerEmptyTest {
 
     @Test
     public void testApplyLoanInvalid() throws Exception {
-        String requestJson = IOUtils.readStringAndClose(
-                new InputStreamReader(LoanRestApiControllerEmptyTest.class
-                        .getResourceAsStream("LoanDtoInvalid.json")),
-                -1);
+        String requestJson = IOUtils
+                .readStringAndClose(new InputStreamReader(new ClassPathResource(
+                        "ru/urvanov/twino/controller/LoanDtoInvalid.json")
+                                .getInputStream()),
+                        -1);
 
         this.mockMvc
                 .perform(post("/loanrestapi/applyLoan").content(requestJson)

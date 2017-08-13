@@ -1,6 +1,5 @@
 package ru.urvanov.twino.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +24,7 @@ import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONCompare;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,7 +46,7 @@ public class LoanRestApiControllerWithDataTest {
     private WebApplicationContext wac;
 
     private MockMvc mockMvc;
-    
+
     @Autowired
     private DataSource dataSource;
 
@@ -60,8 +60,8 @@ public class LoanRestApiControllerWithDataTest {
         // initialize your dataset here
         FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
         builder.setColumnSensing(true);
-        IDataSet dataSet = builder.build(new FileInputStream(
-                "src/test/java/ru/urvanov/twino/controller/test-data.xml"));
+        IDataSet dataSet = builder.build(new ClassPathResource(
+                "ru/urvanov/twino/controller/test-data.xml").getInputStream());
 
         try (Connection connection = dataSource.getConnection()) {
             databaseConnection = new DatabaseConnection(connection);
@@ -73,9 +73,9 @@ public class LoanRestApiControllerWithDataTest {
     @Test
     public void testListLoans() throws Exception {
         final String responseJson = IOUtils
-                .readStringAndClose(
-                        new InputStreamReader(LoanRestApiControllerEmptyTest.class
-                                .getResourceAsStream("ListLoansResponse.json")),
+                .readStringAndClose(new InputStreamReader(new ClassPathResource(
+                        "ru/urvanov/twino/controller/ListLoansResponse.json")
+                                .getInputStream()),
                         -1);
         this.mockMvc
                 .perform(post("/loanrestapi/listLoans")
@@ -106,14 +106,12 @@ public class LoanRestApiControllerWithDataTest {
                         }));
     }
 
-    
-
     @Test
     public void testListLoansByPersonId() throws Exception {
         final String responseJson = IOUtils
-                .readStringAndClose(
-                        new InputStreamReader(LoanRestApiControllerEmptyTest.class
-                                .getResourceAsStream("ListLoansByPersonIdResponse.json")),
+                .readStringAndClose(new InputStreamReader(new ClassPathResource(
+                        "ru/urvanov/twino/controller/ListLoansByPersonIdResponse.json")
+                                .getInputStream()),
                         -1);
         this.mockMvc
                 .perform(post("/loanrestapi/listLoansByPersonId?personId=2")
@@ -147,9 +145,9 @@ public class LoanRestApiControllerWithDataTest {
     @Test
     public void testListLoansByPersonIdBlacklisted() throws Exception {
         final String responseJson = IOUtils
-                .readStringAndClose(
-                        new InputStreamReader(LoanRestApiControllerEmptyTest.class
-                                .getResourceAsStream("ListLoansByPersonIdBlacklistedResponse.json")),
+                .readStringAndClose(new InputStreamReader(new ClassPathResource(
+                        "ru/urvanov/twino/controller/ListLoansByPersonIdBlacklistedResponse.json")
+                                .getInputStream()),
                         -1);
         this.mockMvc
                 .perform(post("/loanrestapi/listLoansByPersonId?personId=3")
