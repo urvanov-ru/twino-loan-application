@@ -1,0 +1,27 @@
+{
+   "success":true,
+   "message":null,
+   "loans":[
+      {
+         "amount":450.00,
+         "term":1577862001000,
+         "surname":"Petrovskiy",
+         "name":"Usagi",
+         "personId":2
+      },
+      {
+         "amount":550.00,
+         "term":1577862001000,
+         "surname":"Petrovskiy",
+         "name":"Usagi",
+         "personId":2
+      },
+      {
+         "amount":10.00,
+         "term":1577862001000,
+         "surname":"Petrovskiy",
+         "name":"Usagi",
+         "personId":2
+      }
+   ]
+}

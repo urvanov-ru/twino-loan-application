@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+  <person id = "1" name = "John" surname="Surname" enabled = "true"/>
+  <person id = "2" name = "Usagi" surname="Petrovskiy" enabled = "true"/>
+  <person id = "3" name = "Sean" surname="Maclaren" enabled="false"/>
+  
+  <loan id = "1" person_id = "1" amount="100.0" term = "2020-01-01 10:00:01.0" />
+  <loan id = "2" person_id = "1" amount="30.0" term = "2020-01-01 10:00:01.0" />
+  <loan id = "3" person_id = "2" amount="450.0" term = "2020-01-01 10:00:01.0" />
+  <loan id = "4" person_id = "2" amount="550.0" term = "2020-01-01 10:00:01.0" />
+  <loan id = "5" person_id = "2" amount="10.0" term = "2020-01-01 10:00:01.0" />
+  <loan id = "6" person_id = "3" amount="110.0" term = "2020-01-01 10:00:01.0" />
+</dataset>

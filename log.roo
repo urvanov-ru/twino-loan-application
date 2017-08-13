@@ -1,0 +1,19 @@
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-08-13 14:50:35
+project --topLevelPackage ru.urvanov.twino --projectName twino-load-application --java 6 --packaging WAR
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2017-08-13 14:50:40
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-08-13 14:51:00
+jpa setup --provider HIBERNATE --database H2_IN_MEMORY 
+entity jpa --class ~.domain.Loan --table loan --testAutomatically 
+field number --fieldName amount --type java.math.BigDecimal --notNull --min 1 
+field date --fieldName term --type java.util.Date --notNull 
+entity jpa --class ~.domain.Person --table person --testAutomatically 
+field string --fieldName surname --sizeMin 1 --sizeMax 100 --notNull 
+field string --fieldName name --sizeMin 1 --sizeMax 100 --notNull 
+// [failed] entity jpa --class ~.domain.Loan
+hint
+hint entities
+hint fields
+field reference --fieldName person --type ~.domain.Person --class ~.domain.Loan --joinColumnName person_id --notNull 
+web mvc setup
+web mvc controller --class ru.urvanov.twino.controller.LoanRestApiController 
+field boolean --fieldName enabled --notNull true --class ~.domain.Person
